@@ -54,7 +54,7 @@ def login():
 
 
 
-    return render_template("index.html")
+    return render_template("index.html",status="1")
 
 @app.route("/search",methods=["get"])
 def search():
