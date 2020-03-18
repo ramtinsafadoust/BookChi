@@ -10,12 +10,14 @@ cur.execute("SELECT * FROM product")
 rows = cur.fetchall()
 
 
-
-
-
 @app.route("/")
 def index():
     return render_template("index.html",data=rows)
+
+
+@app.route("/home")
+def index():
+    return render_template("home.html",data=rows)
 
 
 @app.route("/search",methods=["get"])
