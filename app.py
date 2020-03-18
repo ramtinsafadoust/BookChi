@@ -1,24 +1,18 @@
-from flask import Flask
+from flask import Flask,render_template
 from config import development
-import sqlalchemy as db
-
-
-
-
-engine = db.create_engine('sqlite:///database.sqlite')
-connection = engine.connect()
-metadata = db.MetaData()
-shemas = db.Table('product', metadata, autoload=True, autoload_with=engine)
-query = db.select([shemas])
-ResultProxy = connection.execute(query)
-ResultSet = ResultProxy.fetchall()
-
-
-
-
+import sqlite3
 
 app=Flask(__name__)
 
+conn=sqlite3.connect('database.sqlite')
+cur = conn.cursor()
+cur.execute("SELECT * FROM product")
+rows = cur.fetchall()
+for row in rows:
+        print(row)
+
+
 @app.route("/")
 def index():
-    return str(ResultSet)
+   
+    return render_template("index.html",data=rows)
