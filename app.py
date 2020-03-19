@@ -2,7 +2,7 @@ from flask import Flask,render_template,request
 from config import development
 import sqlite3
 
-app=Flask(__name__,static_url_path='',)
+app=Flask(__name__)
 
 
 
@@ -70,6 +70,43 @@ def search():
     return render_template("search.html",data=searchrows)
 
 
-@app.route("/product")
+@app.route("/product",methods=["GET","POST"])
 def product():
+    bookname=request.form.get("bookname")
+    writer=request.form.get("writer")
+    gorooh=request.form.get("gorooh")
+    boxindex=request.form.get("boxindex")
+    count=request.form.get("count")
+    price=request.form.get("price")
+    discount=request.form.get("discount")
+    regby=request.form.get("regby")
+    barcode=request.form.get("barcode")
+    
+    try:
+        sqliteConnection = sqlite3.connect('database.sqlite')
+        cursor = sqliteConnection.cursor()
+        print("Successfully Connected to SQLite")
+
+        sqlite_insert_query = f"""INSERT INTO product
+                            (bookname, writer, gorooh, boxindex, count,price,discount,regby,barcode) 
+                            VALUES 
+                            ('{bookname}','{writer}','{gorooh}','{boxindex}',{count},{price},{discount},'{regby}','{barcode}')"""
+
+        count = cursor.execute(sqlite_insert_query)
+        sqliteConnection.commit()
+        print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
+        cursor.close()
+        return("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
+
+    except sqlite3.Error as error:
+          print("Failed to insert data into sqlite table", error)
+    finally:
+          if (sqliteConnection):
+                sqliteConnection.close()
+                print("The SQLite connection is closed")
+
+
+
     return render_template("product.html")
+ 
+    
