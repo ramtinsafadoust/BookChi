@@ -14,16 +14,26 @@ def index():
 
 
 @app.route("/home")
-def home(karbar):
-        conn=sqlite3.connect('database.sqlite')
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM product")
-        rows = cur.fetchall()   
-        cur.close()
-        conn.close()
-        print(karbar)
-        username=findname(karbar)
-        return render_template("full-screen-table.html",data=rows,user=username)
+def home(karbar=None):
+        if not karbar==None:
+            conn=sqlite3.connect('database.sqlite')
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM product")
+            rows = cur.fetchall()   
+            cur.close()
+            conn.close()
+            print(karbar)
+            username=findname(karbar)
+            return render_template("full-screen-table.html",data=rows,user=username)
+        else:
+            conn=sqlite3.connect('database.sqlite')
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM product")
+            rows = cur.fetchall()   
+            cur.close()
+            conn.close()
+            
+            return render_template("full-screen-table.html",data=rows,user="کاربر")
 
 @app.route("/compact")
 def compact():
