@@ -96,7 +96,7 @@ def product():
         sqliteConnection.commit()
         print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
         cursor.close()
-        return("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
+        return render_template("home.html",data=update())
 
     except sqlite3.Error as error:
           print("Failed to insert data into sqlite table", error)
@@ -110,3 +110,12 @@ def product():
     return render_template("product.html")
  
     
+
+def update():
+    conn=sqlite3.connect('database.sqlite')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM product")
+    rows = cur.fetchall()   
+    cur.close()
+    conn.close()
+    return rows
