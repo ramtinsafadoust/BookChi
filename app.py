@@ -14,14 +14,26 @@ def index():
 
 
 @app.route("/home")
-def home():
+def home(karbar):
         conn=sqlite3.connect('database.sqlite')
         cur = conn.cursor()
         cur.execute("SELECT * FROM product")
         rows = cur.fetchall()   
         cur.close()
         conn.close()
-        return render_template("home.html",data=rows)
+        print(karbar)
+        username=findname(karbar)
+        return render_template("full-screen-table.html",data=rows,user=username)
+
+@app.route("/compact")
+def compact():
+        conn=sqlite3.connect('database.sqlite')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM product")
+        rows = cur.fetchall()   
+        cur.close()
+        conn.close()
+        return render_template("compact-table.html",data=rows)
 
     
 
@@ -49,7 +61,7 @@ def login():
                     rows = cur.fetchall()   
                     cur.close()
                     conn.close()
-                    return render_template("home.html",data=rows,user=username)
+                    return home(username)
 
 
 
@@ -119,3 +131,32 @@ def update():
     cur.close()
     conn.close()
     return rows
+
+
+
+def findname(username):
+    conn=sqlite3.connect('database.sqlite')
+    cur = conn.cursor()
+    cur.execute(f"SELECT fname FROM users WHERE username='{username}'")
+    fname = cur.fetchone()   
+    tempfname=fname[0]
+    cur.close()
+    conn.close()
+    conn=sqlite3.connect('database.sqlite')
+    cur = conn.cursor()
+    cur.execute(f"SELECT lname FROM users WHERE username='{username}'")
+    lname = cur.fetchone()  
+    templname=lname[0] 
+    cur.close()
+    conn.close()
+    fnmaelname=tempfname+"    "+templname
+    return fnmaelname
+
+
+
+
+
+
+
+if __name__ == '__main__':
+      app.run(host='0.0.0.0', port=80)
