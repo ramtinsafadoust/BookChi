@@ -2,7 +2,7 @@ from flask import Flask,render_template,request
 from config import development
 import sqlite3
 
-app=Flask(__name__)
+app=Flask(__name__,static_url_path='',)
 
 
 
@@ -68,3 +68,8 @@ def search():
     cur.close()
     conn.close()
     return render_template("search.html",data=searchrows)
+
+
+@app.route("/product")
+def product():
+    return render_template("product.html")

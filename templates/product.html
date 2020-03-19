@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>مدیریت محصولات</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href= "fonts1/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css1/style.css">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" class="appointment-form" id="appointment-form">
+                <h2 dir="rtl">مدیریت محصولات</h2>
+                <div class="form-group-1">
+                    <input dir="rtl" type="text" name="bookname" id="bookname" placeholder="نام کتاب" required />
+                    <input dir="rtl" type="text" name="writer" id="writer" placeholder="نویسنده" required />
+                  
+                    <select dir="rtl" name="course_type" id="goroog">
+                        <option slected value="">ژانر</option>
+                        <option value="ادبیات">ادبیات</option>
+                        <option value="روانشناسی">روانشناسی</option>
+                        <option value="درسی">درسی</option>
+                        <option value="تاریخی">تاریخی</option>
+                        <option value="رمان">رمان</option>
+                        <option value="فلسفی">فلسفی</option>
+                        <option value="متفرقه">متفرقه</option>
+                    </select>
+                    <input dir="rtl" type="text" name="boxindex" id="boxindex" placeholder="شماره قفسه" required />
+                    <input dir="rtl" type="number" name="count" id="count" placeholder="تعداد موجودی" required />
+                    <input dir="rtl" type="number" name="price" id="price" placeholder="قیمت/تومان" required />
+                    <input dir="rtl" type="number" name="discount" id="discount" placeholder="تخفیف/درصد" required />
+                    <input dir="rtl" type="text" name="regby" id="regby" placeholder="کاربر ثبات" required />
+                    <input dir="rtl" type="text" name="barcode" id="barcode" placeholder="بارکد" required />
+
+
+                <div  dir="rtl" class="form-submit">
+                    <input  type="submit" name="submit" id="submit" class="submit" value="ثبت محصول" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor1/jquery/jquery.min.js"></script>
+    <script src="js1/main.js"></script>
+</body>
+</html>
