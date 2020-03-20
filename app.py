@@ -1,9 +1,10 @@
 from flask import Flask,render_template,request
 from config import development
 import sqlite3
+from flask_ngrok import run_with_ngrok
 
 app=Flask(__name__)
-
+run_with_ngrok(app)
 
 
 
@@ -169,4 +170,4 @@ def findname(username):
 
 
 if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=80)
+      app.run()
