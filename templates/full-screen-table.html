@@ -63,44 +63,66 @@
   <script src="static/assets/js/demo/demo.js"></script>
 
 
-
+  
 
 </head>
 <body>
 
-  <nav class="navbar navbar-default" >
+
+
+
+
+
+
+  <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#" >  کاربر فعال:  {{user }}      </a>
+        <a class="navbar-brand"  style="font-family: sans-serif; font-size: x-large;">{{user }} </a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="{{url_for('home')}}">خروج</a></li>
-        <li><a href="{{url_for('product')}}">مدیریت محصولات</a></li>
-        <li><a href="#" >  <button class="btn btn-primary" id="btnbasket" >    سبد خرید </button>    </a></li>
+        <li><a href="{{url_for('home')}} "  style="font-family: sans-serif; font-size: large;" >خروج</a></li>
+        <li><a href="{{url_for('product')}}" style="font-family: sans-serif; font-size: large;">مدیریت محصولات</a></li>
+        <li><a href="#">Link</a></li>
       </ul>
+      <button class="btn btn-danger navbar-btn" id="btnbasket" style="font-family: sans-serif; font-size: small;"> سبد خرید</button>
     </div>
   </nav>
 
 
 
+
 <div class="wrapper">
    <!--   Creative Tim Branding   -->
-  <a href="http://creative-tim.com">
+ 
     <div class="logo-container full-screen-table-demo">
       
      
     </div>
   </a>
 
+
+
+
+
+  
+
   <div class="fresh-table full-color-orange full-screen-table">
+
   <!--
     Available colors for the full background: full-color-blue, full-color-azure, full-color-green, full-color-red, full-color-orange
     Available colors only for the toolbar: toolbar-color-blue, toolbar-color-azure, toolbar-color-green, toolbar-color-red, toolbar-color-orange
   -->
     <table id="fresh-table" class="table">
+      
+      
       <thead>
+
+  <div class="form-group" style="margin-left: 50px;margin-right: 50px;" >
+    <label for="usr"></label>
+    <input type="text" class="form-control" id="myInput"  dir="rtl" placeholder="جست و جو">
+  </div>
         <tr>
-          <th>شناسه</th>
+          <th >شناسه</th>
           <th>نام کتاب</th>
           <th>نویسنده</th>
           <th>ژانر</th>
@@ -113,7 +135,7 @@
           <th>خرید</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="myTable">
 
         {% for row in data%}
   
@@ -128,16 +150,16 @@
           <td >{{row[7]  }}</td>
           <td >{{row[8]  }}</td>
           <td >{{row[9]  }}</td>
-          <td ><button class="btn btn-primary" id={{row[0]}} >
+          <td ><button2 class="btn btn-primary" id={{row[0]}} >
             +
-          </button></td>
+          </button2></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-
+    </div>
 
 <div class="fixed-plugin" style="top: 300px">
   <div class="dropdown open">
@@ -229,15 +251,15 @@
       classes: 'table table-hover table-striped',
       toolbar: '.toolbar',
 
-      search: true,
-      showRefresh: true,
-      showToggle: true,
-      showColumns: true,
+      
+      showRefresh: false,
+      showToggle: false,
+      showColumns: false,
       pagination: true,
       striped: true,
       sortable: true,
       height: $(window).height(),
-      pageSize: 25,
+      pageSize: 20,
       pageList: [25, 50, 100],
 
       formatShowingRows: function (pageFrom, pageTo, totalRows) {
@@ -314,18 +336,34 @@
 
 
 
+
 <script>
-$(document).ready(function(){
-  var ids = []
-  $("button").click(function(){
-    ids.push(this.id); 
-
-    $("#btnbasket").text("  پرداخت  "+ids.length)
+  $(document).ready(function(){
+    var ids = []
+    $("button2").click(function(){
+      
+      ids.push(this.id); 
+      //alert(this.id)
+      //alert(":)")
+  
+      $("#btnbasket").text("  پرداخت  "+ids.length)
+    });
   });
-});
-</script>
+  </script>
+ 
 
 
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+  </script> 
+  
 
 </body>
 
