@@ -84,7 +84,8 @@
         <li><a href="{{url_for('product')}}" style="font-family: sans-serif; font-size: large;">مدیریت محصولات</a></li>
         <li><a href="#">Link</a></li>
       </ul>
-      <button class="btn btn-danger navbar-btn" id="btnbasket" style="font-family: sans-serif; font-size: small;"> سبد خرید</button>
+      <button class="btn btn-primary navbar-btn" id="btnbasket" style="font-family: sans-serif; font-size: small;"> سبد خرید</button>
+      <button class="btn btn-danger navbar-btn" id="removebasket" style="font-family: sans-serif; font-size: small;"> حذف سبد خرید </button>
     </div>
   </nav>
 
@@ -115,13 +116,13 @@
     <table id="fresh-table" class="table">
       
       
-      <thead>
+      <thead  style="font-family: sans-serif; font-size: xx-large;"  >
 
   <div class="form-group" style="margin-left: 50px;margin-right: 50px;" >
     <label for="usr"></label>
     <input type="text" class="form-control" id="myInput"  dir="rtl" placeholder="جست و جو">
   </div>
-        <tr>
+        <tr >
           <th >شناسه</th>
           <th>نام کتاب</th>
           <th>نویسنده</th>
@@ -135,7 +136,7 @@
           <th>خرید</th>
         </tr>
       </thead>
-      <tbody id="myTable">
+      <tbody id="myTable" style="font-family: sans-serif; font-size: large;"  >
 
         {% for row in data%}
   
@@ -259,7 +260,7 @@
       striped: true,
       sortable: true,
       height: $(window).height(),
-      pageSize: 20,
+      pageSize: 10,
       pageList: [25, 50, 100],
 
       formatShowingRows: function (pageFrom, pageTo, totalRows) {
@@ -338,8 +339,9 @@
 
 
 <script>
+   var ids = []
   $(document).ready(function(){
-    var ids = []
+   
     $("button2").click(function(){
       
       ids.push(this.id); 
@@ -347,6 +349,7 @@
       //alert(":)")
   
       $("#btnbasket").text("  پرداخت  "+ids.length)
+     
     });
   });
   </script>
@@ -363,7 +366,18 @@
     });
   });
   </script> 
-  
+
+
+  <script>
+  $(document).ready(function(){
+    $("#removebasket").on("click", function() {
+      $("#btnbasket").text("سبد خرید")
+      
+      ids=[]
+   
+    });
+  });
+  </script>
 
 </body>
 
