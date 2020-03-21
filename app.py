@@ -6,7 +6,7 @@ import sqlite3
 from flask_ngrok import run_with_ngrok
 
 app=Flask(__name__)
-run_with_ngrok(app)
+#run_with_ngrok(app)
 
 app.config.update(
 
@@ -87,9 +87,8 @@ def home(karbar=None):
             return render_template("full-screen-table.html",data=update(),user=karbar)
 
 @app.route("/compact")
-@login_required
+
 def compact():
-        
         return render_template("compact-table.html",data=update(),user="کاربر")
 
     
@@ -200,7 +199,17 @@ def product():
 
     return render_template("product.html")
  
-    
+
+
+@app.route("/search")
+def basket():
+
+
+    return render_template("search.html")
+
+
+
+
 
 def update():
     conn=sqlite3.connect('database.sqlite')
