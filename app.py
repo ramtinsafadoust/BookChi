@@ -1,4 +1,6 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request ,  Response, redirect, url_for, session, abort
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user 
+
 from config import development
 import sqlite3
 from flask_ngrok import run_with_ngrok
@@ -6,78 +8,144 @@ from flask_ngrok import run_with_ngrok
 app=Flask(__name__)
 run_with_ngrok(app)
 
+app.config.update(
+
+    SECRET_KEY = 'secret_xxx'
+)
+
+# flask-login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+
+# silly user model
+class User(UserMixin):
+
+    def __init__(self, id,username,password):
+        self.id = id
+        self.username=username
+        self.password = password
+        
+    def __repr__(self):
+        return "%d/%s/%s" % (self.id, self.username, self.password)
+
+
+# create some users with ids 1 to 20
+#
+conn=sqlite3.connect('database.sqlite')
+cur = conn.cursor() 
+cur.execute("SELECT id FROM users")
+id = cur.fetchall()   
+cur.close()
+conn.close()
+
+conn=sqlite3.connect('database.sqlite')
+cur = conn.cursor() 
+cur.execute("SELECT username FROM users")
+username = cur.fetchall()   
+cur.close()
+conn.close()
+
+conn=sqlite3.connect('database.sqlite')
+cur = conn.cursor() 
+cur.execute("SELECT password FROM users")
+password = cur.fetchall()   
+cur.close()
+conn.close()
+
+
+for i in range (1,len(id)):
+    users = User(id,username,password)
+
+
+
+
+
+
+
+
+
 
 
 
 @app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/home")
+@login_required
 def home(karbar=None):
         if not karbar==None:
             conn=sqlite3.connect('database.sqlite')
-            cur = conn.cursor()
+            cur = conn.cursor() 
             cur.execute("SELECT * FROM product")
             rows = cur.fetchall()   
             cur.close()
             conn.close()
             print(karbar)
             username=findname(karbar)
-            return render_template("full-screen-table.html",data=rows,user=username)
+            return render_template("full-screen-table.html",data=rows,usertus=username)
         else:
-            conn=sqlite3.connect('database.sqlite')
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM product")
-            rows = cur.fetchall()   
-            cur.close()
-            conn.close()
-            
-            return render_template("full-screen-table.html",data=rows,user="کاربر")
+
+            return render_template("full-screen-table.html",data=update(),user=karbar)
 
 @app.route("/compact")
+@login_required
 def compact():
-        conn=sqlite3.connect('database.sqlite')
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM product")
-        rows = cur.fetchall()   
-        cur.close()
-        conn.close()
-        return render_template("compact-table.html",data=rows)
+        
+        return render_template("compact-table.html",data=update(),user="کاربر")
 
     
 
 
-@app.route('/login', methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    username=request.form.get("username")
-    
-    password=request.form.get("password")
-    
-    if username and password:
-    
-
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            
             conn=sqlite3.connect('database.sqlite')
-            cur = conn.cursor()
-            cur.execute(f"SELECT password FROM users WHERE username='{username}'")
-            rows = str(cur.fetchone() )
-            print ("=========>> THIS IS ROWS"+str(rows))  
-            temp=rows[2:-3]
-            print ("=========>> THIS IS pass   "+str(password)+"THIS IS TEMp=========>"+str(temp) )  
-            if password == temp:
-                    conn=sqlite3.connect('database.sqlite')
-                    cur = conn.cursor()
-                    cur.execute("SELECT * FROM product")
-                    rows = cur.fetchall()   
-                    cur.close()
-                    conn.close()
-                    return home(username)
+            cur = conn.cursor() 
+            
+            cur.execute(f"SELECT password FROM users WHERE username='{username}';")
+            
+            dbpass = cur.fetchone() 
+            print(dbpass)
+            print(password)
+            print(dbpass[0])
+            cur.close()
+            conn.close()
+            if password == dbpass[0]:
+                return render_template("full-screen-table.html",data=update(),user=username)
+            else:
+                abort(401)
+     
+        except :
+            return "DB PROBLEM"
+        
+    else:
+        return render_template("login.html")
+  
 
 
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return Response('<p>Logged out</p>')
 
-    return render_template("index.html",status="1")
+
+# handle login failed
+@app.errorhandler(401)
+def page_not_found(e):
+    return Response('<p>Login failed</p>')
+    
+    
+# callback to reload the user object        
+@login_manager.user_loader
+def load_user(id,username,password):
+    return User(id,username,password)
+    
+
 
 @app.route("/search",methods=["get"])
 def search():
@@ -119,7 +187,7 @@ def product():
         sqliteConnection.commit()
         print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
         cursor.close()
-        return render_template("home.html",data=update())
+        return render_template("full-screen-table.html",data=update())
 
     except sqlite3.Error as error:
           print("Failed to insert data into sqlite table", error)
@@ -162,12 +230,6 @@ def findname(username):
     conn.close()
     fnmaelname=tempfname+"    "+templname
     return fnmaelname
-
-
-
-
-
-
 
 if __name__ == '__main__':
       app.run()

@@ -72,7 +72,7 @@
         <img src="static/assets/img/new_logo.png">
       </div>
       <div class="brand">
-        بوکچی
+        {{user}}
       </div>
     </div>
   </a>
@@ -167,10 +167,7 @@
       </li>
       <li class="header-title">Layouts</li>
       <li class="active">
-        <a class="img-holder" href="{{ url_for('compact') }}">
-          <img src="static/assets/img/compact.jpg">
-          <h5>Compact Table</h5>
-        </a>
+        
       </li>
       <li>
         <a class="img-holder" href="{{url_for('home')}}">
