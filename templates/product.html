@@ -4,70 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>مدیریت محصولات</title>
+    <title>ثبت محصول</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href= "static/fonts1/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/productmanager/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/productmanager/vendor/nouislider/nouislider.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="static/css1/style.css">
+    <link rel="stylesheet" href="/static/productmanager/css/style.css">
+
+    
 </head>
 <body>
-
-
-    <nav class="navbar navbar-default" >
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#" >   {{user }}   </a>
-          </div>
-          <ul class="nav navbar-nav">
-            <li><a href="{{url_for('home')}}">خروج</a></li>
-            <li><a href="{{url_for('product')}}"> صفحه اصلی </a>/a></li>
-            
-          </ul>
-        </div>
-      </nav>
-
-
-
 
     <div class="main">
 
         <div class="container">
-            <form method="POST" class="appointment-form" id="product" action="{{ url_for ('product')  }}">
-                <h2 dir="rtl">مدیریت محصولات</h2>
-                <div class="form-group-1">
-                    <input dir="rtl" type="text" name="bookname" id="bookname" placeholder="نام کتاب" required />
-                    <input dir="rtl" type="text" name="writer" id="writer" placeholder="نویسنده" required />
-                  
-                    <select dir="rtl" name="gorooh" id="gorooh">
-                        <option disabled selected value> -- انتخاب کنید -- </option>
-                        <option value="ادبیات">ادبیات</option>
-                        <option value="روانشناسی">روانشناسی</option>
-                        <option value="درسی">درسی</option>
-                        <option value="تاریخی">تاریخی</option>
-                        <option value="رمان">رمان</option>
-                        <option value="فلسفی">فلسفی</option>
-                        <option value="متفرقه">متفرقه</option>
-                    </select>
-                    <input dir="rtl" type="text" name="boxindex" id="boxindex" placeholder="شماره قفسه" required />
-                    <input dir="rtl" type="number" name="count" id="count" placeholder="تعداد موجودی" required />
-                    <input dir="rtl" type="number" name="price" id="price" placeholder="قیمت/تومان" required />
-                    <input dir="rtl" type="number" name="discount" id="discount" placeholder="تخفیف/درصد" required />
-                    <input dir="rtl" type="text" name="regby" id="regby" placeholder="کاربر ثبات" required />
-                    <input dir="rtl" type="text" name="barcode" id="barcode" placeholder="بارکد"  />
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="/static/productmanager/images/form-img.jpg" alt="">
+                    <div class="signup-img-content">
+                        <h2>
+                            <div>
 
-
-                <div  dir="rtl" class="form-submit">
-                    <input  type="submit" name="submit" id="submit" class="submit" value="ثبت محصول" />
+                                {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        
+                                        {% for message in messages %}
+                                        
+                                        <div class="alert alert-warning" role="alert" dir="rtl">
+                                            {{ message }}
+                                          </div>
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </h2>
+                        <h1>صفحه ثبت محصول</h1>
+                    </div>
                 </div>
-            </form>
+                <div class="signup-form">
+                    <form method="POST" action="{{ url_for ('product')}}" class="register-form" id="product" >
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-input">
+                                    <label for="first_name" class="required" dir="rtl">نام کتاب</label>
+                                    <input dir="rtl" type="text" name="bookname" id="bookname" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="last_name" class="required" dir="rtl">نویسنده</label>
+                                    <input dir="rtl" type="text" name="writer" id="writer" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="company" class="required" dir="rtl">شماره قفسه</label>
+                                    <input dir="rtl" type="text" name="boxindex" id="boxindex" />
+                                </div>
+                                <div class="form-input"dir="rtl">
+                                    <label for="phone_number" class="required">قیمت / تومان</label>
+                                    <input dir="rtl" type="number" name="price" id="price" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="email" class="required "dir="rtl">تخفیف / درصد</label>
+                                    <input dir="rtl" type="number" name="discount" id="discount" />
+                                </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <div class="form-select">
+                                    <div class="label-flex" dir="rtl"> گروه</label>
+                                
+                                    </div>
+                                    <div class="select-list" dir="rtl" >
+                                        <select name="gorooh" id="meal_preference">
+                                            <option disabled selected value> -- انتخاب کنید -- </option>
+                                            <option value="ادبیات">ادبیات</option>
+                                            <option value="روانشناسی">روانشناسی</option>
+                                            <option value="درسی">درسی</option>
+                                            <option value="تاریخی">تاریخی</option>
+                                            <option value="رمان">رمان</option>
+                                            <option value="فلسفی">فلسفی</option>
+                                            <option value="متفرقه">متفرقه</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        
+                                <div class="form-input">
+                                    <label for="email" class="required "dir="rtl">تعداد موجودی</label>
+                                    <input  dir="rtl" type="number" name="count" id="count" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="blank_name" class="required " dir="rtl" >کاربر ثبات</label>
+                                    <input dir="rtl" type="text" name="regby" id="regby" />
+                                </div>
+                                <div class="form-input">
+                                    <label for="payable" dir="rtl">بارکد</label>
+                                    <input type="text" name="barcode" id="barcode" />
+                                </div>
+                            </div>
+                        </div>
+              
+                        <div class="form-submit">
+                            <button type="button" class="submit"  ><a href="{{url_for('home')}}">  صفحه نخست</a>    </button>
+                           
+                            <input type="submit" value="پاکسازی فیلد" class="submit" id="reset" name="reset" />
+                            <input type="submit" value="ثبت محصول" class="submit" id="submit" name="submit" />
+                           
+                     
+                                                   
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
         </div>
 
     </div>
 
     <!-- JS -->
-    <script src="static/vendor1/jquery/jquery.min.js"></script>
-    <script src="static/js1/main.js"></script>
-</body>
+    <script src="/static/productmanager/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/productmanager/vendor/nouislider/nouislider.min.js"></script>
+    <script src="/static/productmanager/vendor/wnumb/wNumb.js"></script>
+    <script src="/static/productmanager/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/static/productmanager/vendor/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="/static/productmanager/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

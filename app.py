@@ -128,10 +128,11 @@ def login():
 
 
 @app.route("/logout")
-@login_required
+
 def logout():
     logout_user()
-    return Response('<p>Logged out</p>')
+    flash("از حساب کاربری خارج شدید")
+    return render_template('login.html')
 
 
 # handle login failed
@@ -172,7 +173,10 @@ def product():
         sqliteConnection.commit()
         print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
         cursor.close()
-        return render_template("full-screen-table.html",data=update())
+        tempmsg=f"{bookname}  با موفقیت ثبت شد "
+        print(tempmsg)
+        flash(tempmsg)
+        return render_template("product.html")
 
     except sqlite3.Error as error:
           print("Failed to insert data into sqlite table", error)
