@@ -1,52 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>ورود راهبر</title>
+	<title>بوکچی | ورود راهبر</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="static/images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="static/loginpage/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/vendor/animate/animate.css">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="static/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/vendor/select2/select2.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="static/css/util.css">
-	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/css/util.css">
+	<link rel="stylesheet" type="text/css" href="static/loginpage/css/main.css">
 <!--===============================================================================================-->
 </head>
 <body>
 	
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('static/images/img-01.jpg');">
-			<div class="wrap-login100 p-t-190 p-b-30">
-
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="static/loginpage/images/img-01.png" alt="IMG">
+				</div>
 
 				<form class="login100-form validate-form" action="{{ url_for ('login')  }}" , method="POST">
-					<div class="login100-form-avatar">
-						<img src="static/images/avatar-01.jpg" alt="AVATAR">
-					</div>
-
-					<span class="login100-form-title p-t-20 p-b-45">
-						{% if status=="1" %}
-
-						نام کاربری یا گذرواژه صحیح نمیباشد
-
-						{%else%}
-
-
-
-						{% endif%}
-
+					<span class="login100-form-title">
+						ورود راهبر
 					</span>
+					<div>
+
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							
+							{% for message in messages %}
+							
+							<div class="alert alert-warning" role="alert" dir="rtl">
+								{{ message }}
+							  </div>
+							{% endfor %}
+							
+						{% endif %}
+					{% endwith %}
+										</div>
 
 					<div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
 						<input dir="rtl" class="input100" type="text" name="username" placeholder="نام کاربری">
@@ -66,12 +68,16 @@
 
 					<div class="container-login100-form-btn p-t-10">
 						<button class="login100-form-btn">
-							ورود
+							LogIN
 						</button>
 					</div>
 
-		
+
+					<div class="text-center p-t-136">
+						<a class="txt2" href="#">
 					
+						</a>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -81,14 +87,21 @@
 
 	
 <!--===============================================================================================-->	
-	<script src="static/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="static/loginpage/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-	<script src="static/vendor/bootstrap/js/popper.js"></script>
-	<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="static/loginpage/vendor/bootstrap/js/popper.js"></script>
+	<script src="static/loginpage/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-	<script src="static/vendor/select2/select2.min.js"></script>
+	<script src="static/loginpage/vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="static/js/main.js"></script>
+	<script src="static/loginpage/vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="static/loginpage/js/main.js"></script>
 
 </body>
 </html>

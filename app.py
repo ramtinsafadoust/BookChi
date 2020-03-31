@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request ,  Response, redirect, url_for, session, abort
+from flask import Flask,render_template,request ,  Response, redirect, url_for, session, abort,flash
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user 
 
 from config import development
@@ -118,7 +118,8 @@ def login():
                 abort(401)
      
         except :
-            return "DB PROBLEM"
+            flash("نام کاربری و یا رمز عبور صحیح نمیباشد")
+            return render_template("login.html")
         
     else:
         return render_template("login.html")
