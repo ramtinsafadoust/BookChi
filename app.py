@@ -1,3 +1,5 @@
+
+
 from flask import Flask,render_template,request ,  Response, redirect, url_for, session, abort,flash
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user 
 
@@ -22,13 +24,12 @@ login_manager.login_view = "login"
 # silly user model
 class User(UserMixin):
 
-    def __init__(self, id,username,password):
+    def __init__(self, id):
         self.id = id
-        self.username=username
-        self.password = password
+
         
     def __repr__(self):
-        return "%d/%s/%s" % (self.id, self.username, self.password)
+        return "%d" % (self.id)
 
 
 # create some users with ids 1 to 20
@@ -56,7 +57,7 @@ conn.close()
 
 
 for i in range (1,len(id)):
-    users = User(id,username,password)
+    users = User(id)
 
 
 
@@ -71,6 +72,7 @@ for i in range (1,len(id)):
 
 @app.route("/")
 @login_required
+
 def home(karbar=None):
         if not karbar==None:
             conn=sqlite3.connect('database.sqlite')
@@ -79,9 +81,12 @@ def home(karbar=None):
             rows = cur.fetchall()   
             cur.close()
             conn.close()
-            print(karbar)
+            
             username=findname(karbar)
+            getid=users.get_id()
+            print(getid)
             return render_template("full-screen-table.html",data=rows,usertus=username)
+            
         else:
 
             return render_template("full-screen-table.html",data=update(),user=karbar)
@@ -113,6 +118,7 @@ def login():
             cur.close()
             conn.close()
             if password == dbpass[0]:
+                login_user(users)
                 return render_template("full-screen-table.html",data=update(),user=username)
             else:
                 abort(401)
@@ -137,14 +143,14 @@ def logout():
 
 # handle login failed
 @app.errorhandler(401)
-def page_not_found(e):
+def page_not_found(error):
     return Response('<p>Login failed</p>')
     
     
 # callback to reload the user object        
 @login_manager.user_loader
-def load_user(id,username,password):
-    return User(id,username,password)
+def load_user(id):
+    return User(id)
     
 
 @app.route("/product",methods=["GET","POST"])
