@@ -26,7 +26,7 @@ pycairo==1.16.2
 pycups==1.9.73
 PyGObject==3.30.4
 pylint==2.4.4
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pysmbc==1.0.15.6
 python-apt==1.8.4.1
 python-debian==0.1.35
