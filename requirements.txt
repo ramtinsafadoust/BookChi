@@ -32,7 +32,7 @@ python-apt==1.8.4.1
 python-debian==0.1.35
 python-dotenv==0.12.0
 pyudev==0.21.0
-reportlab==3.5.13
+reportlab==3.5.55
 requests==2.21.0
 rpl==1.5.6
 six==1.12.0
